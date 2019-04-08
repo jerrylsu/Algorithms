@@ -1,5 +1,5 @@
 
-## 基本二分查找
+## 二分查找初级：二分模板
 ### Classical Binary Search
 - 数组元素无重复
 ```
@@ -25,6 +25,9 @@ class Solution:
 2. `left + ((right - left) >> 1)`
 3. `nums[mid] ==`
 4. `nums[left] A[right] ? target`
+
+[35. Search Insert Position](https://github.com/jerrylsu/Algorithms/blob/master/08.%20BinarySearch/35.Search_Insert_Position.ipynb)
+[704. Binary Search](https://github.com/jerrylsu/Algorithms/blob/master/08.%20BinarySearch/704.Binary_Search.ipynb)
 
 ### Find First and Last Position of Target  ( lower & upper Bound )
 - Target有重复，其他元素无重复。
@@ -62,6 +65,7 @@ class Solution:
             
         return [lower, upper]
 ```
+[34. Find First and Last Position of Element in Sorted Array](https://github.com/jerrylsu/Algorithms/blob/master/08.%20BinarySearch/34.Find_First_and_Last_Position_of_Element_in_Sorted_Array.ipynb)
 
 ### 总结
 1. 二分查找的本质是缩小搜索范围：**区间缩小 ===> 剩下两个下标 ===> 判断两个下标**
@@ -85,3 +89,101 @@ class Solution:
 - `O(n!)` 与排列有关的搜索 permutation
 
 比`O(n)`更优的时间复杂度，几乎只能是`O(logn)`的二分法。经验之谈：**根据时间复杂度倒推算法是面试中的常用策略**
+
+## 二分查找进阶：转化为二分问题
+把具体的问题转变为：**找到数组中的`第一个/最后一个`满足某个条件的位`置/值`。**
+
+### Find Minimum in Rotated Sorted Array
+- 数组没有重复元素
+```
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        if not nums:
+            return -1
+        left, right = 0, len(nums) - 1
+        while left + 1 < right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] < nums[right]:         # 不可与nums[left]比较， [1, 2, 3, 4, 5]
+                right = mid
+            else:                               # nums[mid] > nums[right] ， 不存在nums[mid] == nums[right]情况。
+                left = mid
+        return min(nums[left], nums[right])
+```
+[153. Find Minimum in Rotated Sorted Array](https://github.com/jerrylsu/Algorithms/blob/master/08.%20BinarySearch/153.Find_Minimum_in_Rotated_Sorted_Array.ipynb)
+
+### Find Minimum in Rotated Sorted Array II
+- 数组包含`重复元素`
+```
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        if not nums:
+            return -1
+        left, right = 0, len(nums) - 1
+        while left + 1 < right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] < nums[right]:         # 不可与nums[left]比较， [1, 2, 3, 4, 5]
+                right = mid
+            elif nums[mid] > nums[right]:
+                left = mid
+            else:
+                right -= 1                     # 重复元素，保守缩小right界, 防止越过[3, 4]。 [5, 5, 5, 5, 3, 4, 5, 5, 5]
+        return min(nums[left], nums[right])        
+```
+
+ ### Search in Rotated Sorted Array
+- 数组没有重复元素
+```
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        if not nums: return -1
+        left, right = 0, len(nums) - 1
+        while left + 1 < right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] == target: return mid
+            
+            if nums[mid] > nums[left]:                 # 确定有序的子数组, [left, mid]有序
+                if nums[left] <= target < nums[mid]:   # 确定target是否在[left, mid]有序子数组
+                    right = mid
+                else:
+                    left = mid
+            else:                                      # 确定有序的子数组, [mid, right]有序
+                if nums[mid] < target <= nums[right]:  # 确定target是否在[mid, right]有序子数组
+                    left = mid
+                else:                                  # 否则，target在无序子数组
+                    right = mid
+        if target == nums[left]: return left
+        if target == nums[right]: return right
+        return -1
+        
+```
+[33. Search in Rotated Sorted Array](https://github.com/jerrylsu/Algorithms/blob/master/08.%20BinarySearch/33.Search_in_Rotated_Sorted_Array.ipynb)
+
+### Search in Rotated Sorted Array II
+- 数组包含`重复元素`
+```
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        if not nums: return False
+        left, right = 0, len(nums) - 1
+        while left + 1 < right:
+            mid = left + ((right - left) >> 1)
+            if target == nums[mid]: return True
+            
+            if nums[mid] > nums[left]:                 # 确定有序的子数组, [left, mid]有序
+                if nums[left] <= target < nums[mid]:   # 确定target是否在[left, mid]有序子数组
+                    right = mid
+                else:
+                    left = mid
+            elif nums[mid] < nums[left]:               # 确定有序的子数组, [mid, right]有序
+                if nums[mid] < target <= nums[right]:  # 确定target是否在[mid, right]有序子数组
+                    left = mid
+                else:                                  # 否则，target在无序子数组
+                    right = mid
+            else:                                      # nums[mid] == nums[left]                   
+                left += 1
+        if target == nums[left]: return True
+        if target == nums[right]: return True
+        return False
+        
+```
+[81. Search in Rotated Sorted Array II](https://github.com/jerrylsu/Algorithms/blob/master/08.%20BinarySearch/81.Search_in_Rotated_Sorted_Array_II.ipynb)
