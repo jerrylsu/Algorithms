@@ -101,11 +101,13 @@ class Solution:
         if not nums:
             return -1
         left, right = 0, len(nums) - 1
+        if nums[right] > nums[left]:
+            return nums[left]
         while left + 1 < right:
             mid = left + ((right - left) >> 1)
-            if nums[mid] < nums[right]:         # 不可与nums[left]比较， [1, 2, 3, 4, 5]
+            if nums[mid] < nums[left]:
                 right = mid
-            else:                               # nums[mid] > nums[right] ， 不存在nums[mid] == nums[right]情况。
+            else:                        # nums[mid] > nums[left] ， 不存在nums[mid] == nums[left]情况。
                 left = mid
         return min(nums[left], nums[right])
 ```
