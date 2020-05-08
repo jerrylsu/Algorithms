@@ -46,12 +46,7 @@ public:
 
 
 int main(){
-    ListNode l1(1);
-    ListNode n1(4);
-    ListNode n2(6);
-    ListNode l2(2);
-    ListNode n3(5);
-    ListNode n4(7);
+    ListNode l1(1), n1(4), n2(6), l2(2), n3(5), n4(7);
 
     l1.next = &n1;
     n1.next = &n2;
