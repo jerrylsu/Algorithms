@@ -29,7 +29,11 @@ public:
     }
 
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-    /* 时间复杂度分析：K 条链表的总结点数是 N，平均每条链表有 N/K 个节点，因此合并两条链表的时间复杂度是 O(N/K)。从 K 条链表开始两两合并成 1 条链表，因此每条链表都会被合并 logK 次，因此 K 条链表会被合并 K * logK 次，因此总共的时间复杂度是 K*logK*N/K 即 O（NlogK）。*/
+    /* 时间复杂度分析：K 条链表的总结点数是 N，平均每条链表有 N/K 个
+     * 节点，因此合并两条链表的时间复杂度是 O(N/K)。从 K 条链表开始
+     * 两两合并成 1 条链表，因此每条链表都会被合并 logK 次，因此 K 
+     * 条链表会被合并 K * logK 次，因此总共的时间复杂度是 K*logK*N/K 
+     * 即 O（NlogK）。*/
         return partition(lists, 0, lists.size() - 1);
     }
 
