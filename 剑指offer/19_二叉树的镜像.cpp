@@ -1,6 +1,4 @@
 #include<algorithm>
-#include<stack>
-
 
 class TreeNode {
     int val;
