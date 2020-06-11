@@ -8,9 +8,9 @@ class Classmates(object):
         self.names.append(name)
 
     def __iter__(self):
-        return ClassmatesIterator(self)
+        return ClassIterator(self)
 
-class ClassmatesIterator(object):
+class ClassIterator(object):
     def __init__(self, obj):
         self.obj = obj
         self.cur = 0
@@ -23,6 +23,8 @@ class ClassmatesIterator(object):
             res = self.obj.names[self.cur]
             self.cur += 1
             return res
+        else:
+            raise StopIteration
 
 
 if __name__ == '__main__':
