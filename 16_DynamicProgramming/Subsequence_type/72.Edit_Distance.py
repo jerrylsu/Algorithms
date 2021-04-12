@@ -12,10 +12,10 @@ class Solution:
                 return n + 1
             if n == -1:
                 return m + 1
-            if word1[m] == word2[n]:
+            if word1[m] == word2[n]:    # skip
                 return ed(m-1, n-1)
             else:
-                return min(ed(m-1, n), ed(m-1, n-1), ed(m, n-1)) + 1
+                return min(ed(m-1, n), ed(m-1, n-1), ed(m, n-1)) + 1    # delete, repalce, insert
         m, n = len(word1) - 1, len(word2) - 1
         return ed(m, n)
 
