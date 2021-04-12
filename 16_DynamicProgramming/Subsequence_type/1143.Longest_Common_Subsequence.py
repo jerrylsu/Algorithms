@@ -1,5 +1,7 @@
 class Solution:
-    def LongestCommonSubsequence(self, text1:str, text2:str) -> int:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        """Recursion.
+        """
         def lcs(m, n):
             if m == -1 or n == -1:
                 return 0
@@ -10,10 +12,12 @@ class Solution:
         m, n = len(text1) - 1, len(text2) - 1
         return lcs(m, n)
 
-    def LongestCommonSubsequence(self, text1:str, text2:str) -> int:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        """Recursion with memory.
+        """
         mem = {}
         def lcs(m, n):
-            if (m, n) in mem[(m, n)]:
+            if (m, n) in mem:
                 return mem[(m, n)]
             if m == -1 or n == -1:
                 return 0
