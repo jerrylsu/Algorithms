@@ -1,4 +1,7 @@
 class Solution:
+    """O(M*N)：所有节点只遍历一次。
+    M*N个节点；每个节点有4条边。
+    """
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
         if not grid: return 0
         row, col = len(grid), len(grid[0])

@@ -1,4 +1,7 @@
 class Solution:
+    """O(N*N)
+    N个节点；每个节点至少1条边（只与自己相连），最多N条边（与所有节点相连）。
+    """
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
         node = len(isConnected)
         visited = [False] * node
