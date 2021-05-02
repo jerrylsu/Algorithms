@@ -1,3 +1,144 @@
+## Two Points
+
+####  633. Sum of Square Numbers
+
+```python3
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        nums = [i**2 for i in range(int(c**0.5)+1)]
+        low, hight = 0, len(nums) - 1
+        while low <= hight:
+            target = nums[low] + nums[hight] 
+            if target < c:
+                low += 1
+            elif target > c:
+                hight -= 1
+            else:
+                return True
+        return False
+```
+
+## Linked List
+
+#### 206. Reverse Linked List
+
+```python3
+class ListNode:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+
+class Solution:
+    def reverseLinkedList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        pre, cur, post = None, head, head.next
+        while cur:
+            post = cur.next
+            cur.next = pre
+            pre = cur
+            cur = post
+        return pre
+```
+
+#### 21. Merge Two Sorted Lists
+
+```python3
+
+class ListNode:
+    def __init__(self, val: int):
+        self.val = val
+        self.next = None
+
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if not l1 and not l2:
+            return None
+        if not l1:
+            return l2
+        if not l2:
+            return l1
+        dummpy = cur = ListNode(-1)
+        while l1 and l2:
+            if l1.val < l2.val:
+                cur.next = l1
+                l1 = l1.next
+            else:
+                cur.next = l2
+                l2 = l2.next
+            cur = cur.next
+        cur.next = l1 or l2
+        return dummpy.next
+```
+
+#### 234. Palindrome Linked List
+
+```python3
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        fast = head
+        slow = self.reverseLinkedList(slow)
+        while slow:
+            if fast.val != slow.val:
+                return False
+            fast = fast.next
+            slow = slow.next
+        return True
+
+    def reverseLinkedList(self, head: ListNode) -> ListNode:
+        pre, cur = None, head
+        while cur:
+            post = cur.next
+            cur.next = pre
+            pre = cur
+            cur = post
+        return pre
+```
+
+#### 328. Odd Even Linked List
+
+```python3
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        dummpy1 = odd = ListNode(-1)
+        dummpy2 = even = ListNode(-1)
+        i = 1
+        while head:
+            if i % 2:
+                odd.next = head
+                odd = odd.next
+            else:
+                even.next = head
+                even = even.next
+            head = head.next
+            i += 1
+        odd.next = dummpy2.next
+        even.next = None
+        return dummpy1.next
+```
+
+#### 19. Remove Nth Node From End of List
+
+```python3
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        dummpy = slow = fast = ListNode(-1)
+        fast.next = head
+        for _ in range(n + 1):
+            fast = fast.next
+        while fast:
+            fast = fast.next
+            slow = slow.next
+        slow.next = slow.next.next
+        return dummpy.next
+
+```
+
+
 ## Search
 
 ### DFS
@@ -17,7 +158,7 @@ class Solution:
             for j in range(col):
                 max_area = max(max_area, self.dfs(grid, i, j))
         return max_area
-    
+
     def dfs(self, grid, i, j):
         if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == 0:
             return 0
@@ -41,7 +182,7 @@ class Solution:
                 self.dfs(isConnected, i, visited)
                 count += 1
         return count
-    
+
     def dfs(self, isConnected, i, visited):
         visited[i] = True
         for j in range(len(isConnected)):
@@ -54,27 +195,27 @@ class Solution:
 ```python3
 class Solution:
     directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
-    
+
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         row, col = len(heights), len(heights[0])
         pa_status = [[False for _ in range(col)] for _ in range(row)]
         al_status = [[False for _ in range(col)] for _ in range(row)]
-        
+
         for r in range(row):
             self.dfs(heights, r, 0, pa_status)
             self.dfs(heights, r, col-1, al_status)
-        
+
         for c in range(col):
             self.dfs(heights, 0, c, pa_status)
             self.dfs(heights, row-1, c, al_status)
-        
+
         results = []
         for i in range(row):
             for j in range(col):
                 if pa_status[i][j] == True and al_status[i][j] == True:
                     results.append([i, j])
         return results
-    
+
     def dfs(self, heights, r, c, status):
         if status[r][c] == True:
             return
@@ -95,7 +236,7 @@ class Solution:
         results, track = [], []
         self.backtrack(nums, track, results)
         return results
-  
+
     def backtrack(self, nums, track, results):
         if len(track) == len(nums):
             results.append(track.copy())
@@ -136,7 +277,7 @@ class Solution:
             return False
         if index == len(word) - 1 and board[i][j] == word[index]:
             return True
-        visited[i][j] = True    # avoid visit agian 
+        visited[i][j] = True    # avoid visit agian
         res = self.backtrack(board, i - 1, j, word, index + 1, visited) \
            or self.backtrack(board, i + 1, j, word, index + 1, visited) \
            or self.backtrack(board, i, j - 1, word, index + 1, visited) \
@@ -162,7 +303,7 @@ class Solution:
         if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]):
             return False
         if board[i][j] == "#" or board[i][j] != word[index]:
-          return False
+            return False
         if index == len(word) - 1 and board[i][j] == word[index]:
             return True
         temp = board[i][j]
