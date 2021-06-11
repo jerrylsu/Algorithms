@@ -191,8 +191,6 @@ class Solution:
         return indegree
 ```
 
-
-
 ## Two Points
 
 ####  633. Sum of Square Numbers
@@ -241,6 +239,7 @@ class Solution:
 
 #### 18.4Sum
 
+```python3
     class Solution:
         def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
             n = len(nums)
@@ -269,6 +268,7 @@ class Solution:
                         else:
                             l += 1
             return res
+```
 
 #### 704. Binary Search
 
